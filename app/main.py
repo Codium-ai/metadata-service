@@ -14,12 +14,12 @@ from api.v1.entity_tags import controller as entity_tags_controller
 from app.common.database import Base, engine
 from common.config import settings
 from common.constants import DEFAULT_APP_PORT
-from common.utils.logging_utils import get_logger
+from common.utils.logging_utils import get_logger, setup_logger, LoggingFormat
 from alembic import command
 from alembic.config import Config
 from alembic import context
 
-logger = get_logger()
+logger = setup_logger(level="DEBUG", fmt=LoggingFormat.CONSOLE)
 
 app = FastAPI()
 
@@ -36,7 +36,7 @@ def run_alembic_upgrade():
     # alembic_cfg.set_main_option("sqlalchemy.url", settings.get("DATABASE_URL"))
 
     alembic_cfg = Config()
-    alembic_cfg.set_main_option("script_location", "../migrations")
+    alembic_cfg.set_main_option("script_location", "./migrations")
     alembic_cfg.set_main_option("sqlalchemy.url", settings.database_url)
     # alembic_cfg = Config("alembic.ini")
     try:
@@ -49,11 +49,14 @@ def run_alembic_upgrade():
 
 
 if __name__ == "__main__":
+    logger.info("Running main info")
+    logger.debug("Running main debug")
+
     import uvicorn
 
     # temporary - will use alembic in the future
     # Base.metadata.create_all(engine)
-    run_alembic_upgrade()
+    #run_alembic_upgrade()
 
     uvicorn.run(
         app, host="0.0.0.0", port=int(settings.get("PORT", default=DEFAULT_APP_PORT))

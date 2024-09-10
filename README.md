@@ -14,7 +14,7 @@
 
 1. From the `metadata_service` directory, run:
    ```sh
-   docker build -t metadata_service_img .
+   docker build --no-cache -t metadata_service_img .
 
 2. Run the container with:
     ```sh

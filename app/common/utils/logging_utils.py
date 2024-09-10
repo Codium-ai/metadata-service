@@ -54,7 +54,7 @@ def setup_logger(level: str = "INFO", fmt: LoggingFormat = LoggingFormat.CONSOLE
     log_folder = settings.get("CONFIG.ANALYTICS_FOLDER", "")
     if log_folder:
         pid = os.getpid()
-        log_file = os.path.join(log_folder, f"pr-agent.{pid}.log")
+        log_file = os.path.join(log_folder, f"metadata-service.{pid}.log")
         logger.add(
             log_file,
             filter=analytics_filter,
@@ -68,4 +68,4 @@ def setup_logger(level: str = "INFO", fmt: LoggingFormat = LoggingFormat.CONSOLE
 
 
 def get_logger():
-    return logger
+    return setup_logger(level="DEBUG", fmt=LoggingFormat.CONSOLE)

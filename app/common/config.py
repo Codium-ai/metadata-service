@@ -45,7 +45,7 @@ def get_connection_url():
 # settings.DATABASE_URL = get_connection_url()
 settings.DATABASE_URL = "postgresql://postgres:123456@localhost:5433/metadata_service_2"
 
-
+#"postgresql://postgres:123456@localhost:5433/metadata_service_2_kuku"
 def log_settings(prefix, settings_obj):
     # Convert settings to dictionary
     settings_dict = settings_obj.as_dict()

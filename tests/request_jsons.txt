@@ -59,3 +59,18 @@
   "limit": 100,
   "offset": 0
 }
+
+[
+  {
+    "entity_id": "/repo1",
+    "entity_type": "repo",
+    "tag_groups": [
+      {
+        "tag_group_name": "colors",
+        "tag_names": [
+          "red", "green", "blue"
+        ]
+      }
+    ]
+  }
+]

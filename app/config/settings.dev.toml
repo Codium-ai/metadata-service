@@ -1,9 +1,10 @@
 [development]
 DATABASE_USER = "postgres"
 DATABASE_PASSWORD = "123456"
-DATABASE_NAME = "metadata_service"
+DATABASE_NAME = "metadata_service_none"
 DATABASE_HOST = "localhost"
 DATABASE_PORT = "5432"
 
 PORT = 8000
 LOG_LEVEL = "debug"
+CONFIG.ANALYTICS_FOLDER = "analytics"
