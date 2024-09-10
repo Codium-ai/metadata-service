@@ -43,7 +43,9 @@ def get_connection_url():
 
 
 # settings.DATABASE_URL = get_connection_url()
-settings.DATABASE_URL = "postgresql://postgres:123456@localhost:5433/metadata_service_2"
+
+# Development GKE cluster settings
+settings.DATABASE_URL = "postgresql://postgres:codium1605@10.218.192.3:5432/metadata_service"
 
 #"postgresql://postgres:123456@localhost:5433/metadata_service_2_kuku"
 def log_settings(prefix, settings_obj):

@@ -56,7 +56,7 @@ if __name__ == "__main__":
 
     # temporary - will use alembic in the future
     # Base.metadata.create_all(engine)
-    #run_alembic_upgrade()
+    run_alembic_upgrade()
 
     uvicorn.run(
         app, host="0.0.0.0", port=int(settings.get("PORT", default=DEFAULT_APP_PORT))
