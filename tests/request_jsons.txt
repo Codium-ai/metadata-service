@@ -1,0 +1,61 @@
+{
+    "offset": 0,
+    "filters": [
+        {
+            "field": "name",
+            "field_type": "string",
+            "filter_type": "starts_with",
+            "values": [
+                "j"
+            ]
+        },
+        {
+            "field": "description",
+            "field_type": "string",
+            "filter_type": "contains",
+            "values": [
+                "Desc"
+            ]
+        }
+    ],
+    "filters_operator": "or",
+    "sorts": [
+        {
+            "field": "id",
+            "sort_type": "asc"
+        }
+    ],
+    "limit": 100
+}
+// list entity tags
+{
+  "filters": [        {
+            "field": "entity_id",
+            "field_type": "string",
+            "filter_type": "equals",
+            "values": [
+"/home/repo2"
+            ]
+        }],
+  "filters_operator": "and",
+  "sorts": [],
+  "limit": 100,
+  "offset": 0
+}
+// search entities with tags (against entity_tags table)
+{
+  "filters": [
+            {
+                "field": "tag_id",
+                "field_type": "string",
+                "filter_type": "equals",
+                "values": [
+                    "1", "2", "3"
+                ]
+            }
+        ],
+  "filters_operator": "and",
+  "sorts": [],
+  "limit": 100,
+  "offset": 0
+}
