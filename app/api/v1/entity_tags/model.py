@@ -2,8 +2,7 @@
 This module contains the ORM model and DTO models related to the EntityTag entity
 """
 
-from http.client import HTTPException
-from typing import Optional, TypeVar, Generic, List
+from typing import Optional
 
 from pydantic import BaseModel
 from sqlalchemy import (
@@ -12,12 +11,10 @@ from sqlalchemy import (
     String,
     ForeignKey,
     PrimaryKeyConstraint,
-    DateTime,
-    func,
 )
 
 from app.api.v1.tag_groups.service import TagGroupService
-from app.api.v1.tags.model import TagResponse, Tag
+from app.api.v1.tags.model import TagResponse
 from app.api.v1.tags.service import TagService
 from app.common.database import Base
 
@@ -66,12 +63,6 @@ class ResetEntityTagsByNameResponse(BaseModel):
     errors: list[str] = []
 
 
-# ceating this class makes pydantic schema generation fail- why??? Because Tag is a sqlalchemy type, and pydantic cant generate type for it
-# class ResetEntityTagsByNameResult(BaseModel):
-#     tags: list[Tag]
-#     errors: list[str] = []
-
-
 class EntityTagResponse(BaseModel):
     """Structure of the EntityTag entity to be returned in the API response (DTO)"""
 
@@ -79,7 +70,6 @@ class EntityTagResponse(BaseModel):
     entity_type: str
     tag_id: int
     tag: TagResponse
-    # create_date: DateTime
 
     @classmethod
     def from_entity_tag(

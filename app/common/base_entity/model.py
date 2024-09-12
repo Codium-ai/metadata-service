@@ -73,3 +73,25 @@ class AdvancedSearchResponse(BaseModel, Generic[T]):
 
 class DeleteResponse(BaseModel):
     count: int
+
+
+# Define TypeVars to parameterize request and response types
+REQUEST = TypeVar("REQUEST")
+RESPONSE = TypeVar("RESPONSE")
+
+
+# Generic Pydantic models for Success and Error entries
+class SuccessItem(BaseModel, Generic[REQUEST, RESPONSE]):
+    req: REQUEST
+    res: RESPONSE
+
+
+class ErrorItem(BaseModel, Generic[T]):
+    req: REQUEST
+    errors: List[str]
+
+
+# Generic BulkResponse model that combines success and error lists
+class BulkResponse(BaseModel, Generic[REQUEST, RESPONSE]):
+    success: List[SuccessItem[REQUEST, RESPONSE]]
+    errors: List[ErrorItem[REQUEST]]

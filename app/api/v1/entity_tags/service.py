@@ -95,10 +95,12 @@ class EntityTagService:
                         if entity_tag:
                             tags_created.append(tag)
                         logger.debug(f"Tags created: {tags_created}")
+                    # pylint: disable=broad-except
                     except Exception as e:
                         err = f"Error creating tag: {tag_name} - {e}"
                         logger.error(err)
                         errors.append(err)
+            # pylint: disable=broad-except
             except Exception as e:
                 err = f"Error creating tag group: {tag_group_req.tag_group_name} - {e}"
                 logger.error(err)

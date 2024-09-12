@@ -107,25 +107,19 @@ class BaseRepository(Generic[T]):
 
         # todo: add going over all the values, and adding them with or condition
         filter_clauses = []
-        for filter in search_req.filters:
-            column = getattr(self.model, filter.field)
+        for f in search_req.filters:
+            column = getattr(self.model, f.field)
             value_clauses = []
-            for value in filter.values:
-                if filter.filter_type == FilterType.EQUALS:
+            for value in f.values:
+                if f.filter_type == FilterType.EQUALS:
                     value_clauses.append(column == value.lower())
-                elif filter.filter_type == FilterType.STARTS_WITH:
+                elif f.filter_type == FilterType.STARTS_WITH:
                     value_clauses.append(column.like(f"{value.lower()}%"))
-                elif filter.filter_type == FilterType.CONTAINS:
+                elif f.filter_type == FilterType.CONTAINS:
                     value_clauses.append(column.like(f"%{value.lower()}%"))
 
             if value_clauses:
                 filter_clauses.append(or_(*value_clauses))
-            # if filter.filter_type == FilterType.EQUALS:
-            #     filter_clauses.append(column == filter.values[0].lower())
-            # elif filter.filter_type == FilterType.STARTS_WITH:
-            #     filter_clauses.append(column.like(f"{filter.values[0].lower()}%"))
-            # elif filter.filter_type == FilterType.CONTAINS:
-            #     filter_clauses.append(column.like(f"%{filter.values[0].lower()}%"))
 
         if search_req.filters_operator == LogicOperator.AND:
             query = query.filter(and_(*filter_clauses))

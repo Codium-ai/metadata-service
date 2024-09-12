@@ -18,9 +18,9 @@ from app.common.base_entity.model import (
     DeleteResponse,
 )
 from app.common.database import get_db
-from app.common.utils.logging_utils import setup_logger, LoggingFormat
+from app.common.utils.logging_utils import get_logger
 
-logger = setup_logger(level="DEBUG", fmt=LoggingFormat.CONSOLE)
+logger = get_logger()
 
 router = APIRouter()
 
@@ -113,16 +113,11 @@ def advanced_search(
     service: TagService = Depends(get_tag_service),
     tag_group_service=Depends(get_tag_group_service),
 ) -> AdvancedSearchResponse[TagResponse]:
-    logger.info(f"advanced_search running")
-    logger.debug(f"advanced_search running")
-    logger.warning(f"advanced_search running")
     try:
-
         advanced_search_response = service.advanced_search(search_req)
         return convert_advanced_search_response(
             advanced_search_response, tag_group_service
         )
     except Exception as e:
-        logger.error(f"Exception occurred: {e}")
-        logger.error(traceback.format_exc())
+        logger.error(f"Exception occurred: {e}\n{traceback.format_exc()}")
         raise HTTPException(status_code=400, detail=str(e)) from e

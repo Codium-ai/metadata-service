@@ -1,6 +1,9 @@
 
+# Metatdata Service
 
-
+### Table of Contents
+1. [Run Locally](#Run Locally)
+2. [Run via Docker](#Run via Docker)
 
 
 ## Run Locally
@@ -86,3 +89,41 @@ metadata-1  | INFO:     Waiting for application startup.
 metadata-1  | INFO:     Application startup complete.
 metadata-1  | INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
 ```
+
+#### Database state retention:
+The DB created by docker compose will retain values on recreation.
+To remove the DB and start fresh, run:
+```sh
+docker volume rm metadata_db
+```
+
+## Deploying to development
+
+To deploy to development, run the github action: "Build and push Metadata service for dev cluster"
+
+
+To use the development env deployment during development or access it via browser
+define the following port forwarding:
+```sh
+kubectl port-forward svc/metadata-service 8000:8000 -n metadata-service
+```
+You should be able to access:  `http://localhost:8000/docs`
+
+If this doesn't work, please do:
+
+1. check with Ori you have k8s permission
+2. configure kubectl:
+```sh
+gcloud container clusters get-credentials development-cluster --region us-central1 --project codium-development
+```
+This will add the cluster to your ~/.kube/config
+
+You can use
+```sh
+kubectl config get-contexts
+```
+to see for which cluster kubectl is configured. Verify you can access the cluster using
+```shell
+kubectl version
+```
+I recommend to install Lens as a k8s IDE, it will make your life easier, won’t need to remember the port-forward kubectl syntax..

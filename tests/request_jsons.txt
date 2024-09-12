@@ -72,5 +72,27 @@
         ]
       }
     ]
+  },
+  {
+    "entity_id": "/repo2",
+    "entity_type": "repo",
+    "tag_groups": [
+      {
+        "tag_group_name": "favorite harry potter character",
+        "tag_names": [
+          "Ron", "Hermiony", "Harry"
+        ]
+      }
+    ]
   }
 ]
+
+
+
+Test scenarious:
+
+testing configuration
+testing environments
+test configuration hierarchy (env -> config -> default)
+
+compare Base.metadata.create_all(engine) with results of alembic upgrade head

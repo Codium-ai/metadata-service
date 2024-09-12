@@ -2,7 +2,7 @@
 This module contains the ORM model and DTO models related to the TagGroups entity
 """
 
-from typing import List, Optional
+from typing import Optional
 
 from sqlalchemy import Column, Integer, String, UniqueConstraint
 from pydantic import BaseModel
