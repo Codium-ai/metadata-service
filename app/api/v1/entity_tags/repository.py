@@ -6,7 +6,6 @@ for the EntityTags entity.
 from sqlalchemy.orm import Session
 
 from app.api.v1.entity_tags.model import EntityTag
-from app.api.v1.tag_groups.model import TagGroup
 from app.common.base_entity.repository import BaseRepository
 
 

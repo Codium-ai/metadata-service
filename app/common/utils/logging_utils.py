@@ -6,9 +6,7 @@ import logging
 import os
 import sys
 from enum import Enum
-
 from loguru import logger
-
 from app.common.config import settings
 
 
@@ -68,4 +66,4 @@ def setup_logger(level: str = "INFO", fmt: LoggingFormat = LoggingFormat.CONSOLE
 
 
 def get_logger():
-    return setup_logger(level="DEBUG", fmt=LoggingFormat.CONSOLE)
+    return setup_logger(level=settings.LOG_LEVEL, fmt=LoggingFormat.CONSOLE)
