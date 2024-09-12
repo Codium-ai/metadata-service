@@ -11,13 +11,11 @@ from api.v1.tag_groups import controller as tag_group_controller
 from api.v1.general import controller as general_controller
 from api.v1.tags import controller as tags_controller
 from api.v1.entity_tags import controller as entity_tags_controller
-from app.common.database import Base, engine
 from common.config import settings
 from common.constants import DEFAULT_APP_PORT
-from common.utils.logging_utils import get_logger, setup_logger, LoggingFormat
+from common.utils.logging_utils import setup_logger, LoggingFormat
 from alembic import command
 from alembic.config import Config
-from alembic import context
 
 logger = setup_logger(level="DEBUG", fmt=LoggingFormat.CONSOLE)
 
@@ -49,14 +47,10 @@ def run_alembic_upgrade():
 
 
 if __name__ == "__main__":
-    logger.info("Running main info")
-    logger.debug("Running main debug")
-
     import uvicorn
 
-    # temporary - will use alembic in the future
     # Base.metadata.create_all(engine)
-    #run_alembic_upgrade()
+    run_alembic_upgrade()
 
     uvicorn.run(
         app, host="0.0.0.0", port=int(settings.get("PORT", default=DEFAULT_APP_PORT))

@@ -4,10 +4,8 @@ It handles all API/HTTP related issues.
 It uses the service layer to perform the business logic.
 """
 
-from idlelib.iomenu import errors
 from typing import List
-
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from sqlalchemy.orm import Session
 
 
@@ -16,12 +14,14 @@ from app.api.v1.entity_tags.service import EntityTagService
 from app.api.v1.tag_groups.controller import get_tag_group_service
 from app.api.v1.tag_groups.service import TagGroupService
 from app.api.v1.tags.controller import get_tag_service
-from app.api.v1.tags.model import TagResponse
 from app.api.v1.tags.service import TagService
 from app.common.base_entity.model import (
     AdvancedSearchRequest,
     AdvancedSearchResponse,
     DeleteResponse,
+    BulkResponse,
+    ErrorItem,
+    SuccessItem,
 )
 from app.common.database import get_db
 from app.api.v1.entity_tags.model import (
@@ -116,6 +116,48 @@ def delete(
         raise HTTPException(status_code=400, detail=str(e)) from e
 
 
+@router.delete(
+    "/entity_tags/bulk",
+    response_model=BulkResponse[EntityTagDeleteRequest, DeleteResponse],
+)
+def delete_bulk(
+    delete_requests: List[EntityTagDeleteRequest],
+    response: Response,
+    entity_tag_service: EntityTagService = Depends(get_entity_tag_service),
+):
+    bulk_response = BulkResponse(
+        success=[],
+        errors=[],
+    )
+
+    for delete_request in delete_requests:
+        try:
+            deleted_count = entity_tag_service.delete(delete_request)
+
+            if deleted_count == 0:
+                bulk_response.errors.append(
+                    ErrorItem(req=delete_request, errors=["No Tags found for entity"])
+                )
+            else:
+                bulk_response.success.append(
+                    SuccessItem(
+                        req=delete_request, res=DeleteResponse(count=deleted_count)
+                    )
+                )
+        # pylint: disable=broad-except
+        except Exception as e:
+            bulk_response.errors.append(ErrorItem(req=delete_request, errors=[str(e)]))
+
+    if bulk_response.success and not bulk_response.errors:
+        response.status_code = status.HTTP_200_OK
+    if bulk_response.success and bulk_response.errors:
+        response.status_code = status.HTTP_207_MULTI_STATUS
+    elif not bulk_response.success and bulk_response.errors:
+        response.status_code = status.HTTP_400_BAD_REQUEST
+
+    return bulk_response
+
+
 @router.post("/entity_tags/reset", response_model=List[ResetEntityTagsByNameResponse])
 def reset(
     reset_requests: list[ResetEntityTagsByNameRequest],
@@ -132,10 +174,11 @@ def reset(
             )
 
             results.append(reset_entity_response)
-
+        # pylint: disable=broad-except
         except Exception as e:
             logger.debug(
-                f"Error resetting tags by name for entity {reset_request.entity_id} - {e}"
+                f"Error resetting tags by name for entity {reset_request.entity_id} \
+                - {e}"
             )
 
     return results
