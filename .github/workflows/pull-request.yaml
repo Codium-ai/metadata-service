@@ -23,7 +23,7 @@ jobs:
       - name: Start Docker
         run: docker compose up db -d
       - name: Wait for Postgres
-        uses: smurfpandey/wait-for-it@master
+        uses: smurfpandey/wait-for-it@main
         with:
           host: localhost
           port: 5432
