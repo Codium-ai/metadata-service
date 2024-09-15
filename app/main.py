@@ -26,26 +26,6 @@ app.include_router(general_controller.router, prefix="/api/v1")
 app.include_router(tags_controller.router, prefix="/api/v1")
 app.include_router(entity_tags_controller.router, prefix="/api/v1")
 
-
-def run_alembic_upgrade():
-    # inject values from dynoconf
-    # Alembic Config object
-    # alembic_cfg = context.config
-    # alembic_cfg.set_main_option("sqlalchemy.url", settings.get("DATABASE_URL"))
-
-    alembic_cfg = Config()
-    alembic_cfg.set_main_option("script_location", "./migrations")
-    alembic_cfg.set_main_option("sqlalchemy.url", settings.database_url)
-    # alembic_cfg = Config("alembic.ini")
-    try:
-        logger.info("Running Alembic upgrade")
-        command.upgrade(alembic_cfg, "head")
-        logger.info("Alembic upgrade completed successfully")
-    except Exception as e:
-        logger.error(f"Alembic upgrade failed: {e}")
-        raise
-
-
 if __name__ == "__main__":
     import uvicorn
 
