@@ -23,6 +23,6 @@ jobs:
       - name: Start Docker
         run: docker compose up db -d
       - name: Run alembic migrations
-        run: PYTHONPATH="$PYTHONPATH:." python ./app/schema_migration.py
+        run: ENV_FOR_DYNACONF=test PYTHONPATH="$PYTHONPATH:." python ./app/schema_migration.py
       - name: Run tests
-        run: PYTHONPATH="$PYTHONPATH:." python -m pytest .
+        run: ENV_FOR_DYNACONF=test PYTHONPATH="$PYTHONPATH:." python -m pytest .
