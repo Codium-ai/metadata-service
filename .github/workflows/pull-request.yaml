@@ -28,6 +28,7 @@ jobs:
           host: localhost
           port: 5432
           timeout: 10
+      - run: docker ps -a
       - name: Run alembic migrations
         run: ENV_FOR_DYNACONF=test PYTHONPATH="$PYTHONPATH:." python ./app/schema_migration.py
       - name: Run tests
