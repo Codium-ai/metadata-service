@@ -22,13 +22,7 @@ jobs:
           pip install -r requirements.txt
       - name: Start Docker
         run: docker compose up db -d
-#      - name: Wait for Postgres
-#        uses: smurfpandey/wait-for-it@main
-#        with:
-#          host: localhost
-#          port: 5432
-#          timeout: 10
-      - run: sleep 30
+      - run: sleep 5 # TODO wait for PG to be ready
       - run: docker ps -a
       - name: Run alembic migrations
         run: ENV_FOR_DYNACONF=test PYTHONPATH="$PYTHONPATH:." python ./app/schema_migration.py
