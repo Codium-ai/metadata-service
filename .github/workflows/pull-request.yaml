@@ -33,3 +33,6 @@ jobs:
         run: ENV_FOR_DYNACONF=test PYTHONPATH="$PYTHONPATH:." python ./app/schema_migration.py
       - name: Run tests
         run: ENV_FOR_DYNACONF=test PYTHONPATH="$PYTHONPATH:." python -m pytest .
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
