@@ -7,15 +7,15 @@ from fastapi.exception_handlers import (
 from fastapi.exceptions import HTTPException
 from starlette.responses import JSONResponse
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
-from api.v1.tag_groups import controller as tag_group_controller
-from api.v1.general import controller as general_controller
-from api.v1.tags import controller as tags_controller
-from api.v1.entity_tags import controller as entity_tags_controller
-from common.config import settings
-from common.constants import DEFAULT_APP_PORT
-from common.utils.logging_utils import setup_logger, LoggingFormat
-from alembic import command
-from alembic.config import Config
+from app.api.v1.tag_groups import controller as tag_group_controller
+from app.api.v1.general import controller as general_controller
+from app.api.v1.tags import controller as tags_controller
+from app.api.v1.entity_tags import controller as entity_tags_controller
+from app.common.config import settings
+from app.common.constants import DEFAULT_APP_PORT
+from app.common.utils.logging_utils import setup_logger, LoggingFormat
+from app.schema_migration import run_alembic_upgrade
+
 
 logger = setup_logger(level="DEBUG", fmt=LoggingFormat.CONSOLE)
 
