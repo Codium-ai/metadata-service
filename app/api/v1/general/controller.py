@@ -33,6 +33,7 @@ async def health_check():
         "APP_VERSION": settings.get("APP_VERSION", "-----"),
         "DB_TABLES": tables,
     }
+
     return {"settings": resp, "status": "ok"}
 
 
