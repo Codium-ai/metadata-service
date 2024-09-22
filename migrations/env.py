@@ -1,5 +1,6 @@
 '''
-Runs on alembic db schema update
+This file is run when we execute alembic (db schema migration) commands,
+from command line and programatically.
 '''
 import sys
 import os

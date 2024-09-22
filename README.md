@@ -8,7 +8,7 @@
 
 ## Run Locally
 
-1. Create an empty PostgreSQL database and update the `settings.dev.toml` file with the database details.
+1. Create an empty PostgreSQL database and update the `settings.dev-localhost.toml` file with the database details.
 2. Create a virtual environment and install the dependencies.
 3. Run `main.py` (a database schema will be generated in your database).
 4. View the API Swagger at: [http://0.0.0.0:8000/docs](http://0.0.0.0:8000/docs).
@@ -23,39 +23,12 @@
     ```sh
     docker run -p 8000:8000 metadata_service_img
 
-
-## Working with Alembic to manade database migrations
-Whenever you make changes to the database schema, 
-you need to create a databse revision script.
-On service startup, alembic will update the db to the latest revision, by running all the revision scripts in order.
-
-### Creating a schema revision
-
-1. create a new revision
-    ```sh
-    alembic revision -m "create account table"
-    ```
-   This will generate a new script in migrations directory.
-   Implement the upgrade and downgrade functions in the script.
-
-### Other Alembic commands
-
-2. generate revision script
-    ```sh
-    alembic revision --autogenerate -m "your db change description"
-    ```
-2. upgrade database
-    ```sh
-    alembic upgrade head
-    ```
-3. downgrade database
-    ```sh
-    alembic downgrade -1
-    ```
-
 ### Running with docker-compose
 
 - Make sure you're running docker-compose v2
+```shell
+docker compose version
+```
 - Build docker image locally: `docker build -t metadata-svc:latest .`
 - Update postgres connection string to `"postgresql://postgres:postgres@db:5432/postgres"`
 - Run docker-compose: `docker compose up`
@@ -127,3 +100,32 @@ to see for which cluster kubectl is configured. Verify you can access the cluste
 kubectl version
 ```
 I recommend to install Lens as a k8s IDE, it will make your life easier, won’t need to remember the port-forward kubectl syntax..
+
+## Working with Alembic to manade database migrations
+Whenever you make changes to the database schema, 
+you need to create a databse revision script.
+On service startup, alembic will update the db to the latest revision, by running all the revision scripts in order.
+
+### Creating a schema revision
+
+1. create a new revision
+    ```sh
+    alembic revision -m "create account table"
+    ```
+   This will generate a new script in migrations directory.
+   Implement the upgrade and downgrade functions in the script.
+
+### Other Alembic commands
+
+2. generate revision script
+    ```sh
+    alembic revision --autogenerate -m "your db change description"
+    ```
+2. upgrade database
+    ```sh
+    alembic upgrade head
+    ```
+3. downgrade database
+    ```sh
+    alembic downgrade -1
+    ```
