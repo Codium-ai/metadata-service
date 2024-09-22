@@ -13,7 +13,8 @@ ENV PYTHONPATH=/root
 
 # Define environment variable for the port
 ENV PORT=8000
-ENV ENV_FOR_DYNACONF=development
+ENV ENV_FOR_DYNACONF=dev-compose
+
 ENV PYTHONUNBUFFERED=1
 
 # Make the port available to the world outside this container

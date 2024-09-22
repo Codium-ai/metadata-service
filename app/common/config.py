@@ -12,21 +12,26 @@ Configuration settings for the application.
 
 import os
 from dynaconf import Dynaconf
-
-load_dotenv = os.getenv("ENV_FOR_DYNACONF", "development") != "production"
+from loguru import logger
 
 _settings = Dynaconf(
     settings_files=[
         "app/config/settings.toml",
         "app/config/settings.dev.toml",
+        "app/config/settings.dev-localhost.toml",
+        "app/config/settings.dev-compose.toml",
         "app/config/settings.test.toml",
         "app/config/settings.prod.toml",
         "app/config/.secrets.toml",
     ],
-    load_dotenv=load_dotenv,
+    load_dotenv=True,
+    # useful for dev-localhost only, overridden when running in docker
     env_switcher="ENV_FOR_DYNACONF",
     environments=True,
 )
+
+# Debugging: Print environment variables
+logger.debug(f"Environment Variables: {os.environ}")
 
 
 class Settings:
@@ -72,5 +77,5 @@ def get_connection_url():
 
 
 _settings.DATABASE_URL = get_connection_url()
-
+logger.debug(f"DATABASE_URL: {_settings.DATABASE_URL}")
 settings = Settings(_settings)
