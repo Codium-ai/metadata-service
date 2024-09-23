@@ -17,11 +17,10 @@ from loguru import logger
 _settings = Dynaconf(
     settings_files=[
         "app/config/settings.toml",
-        "app/config/settings.dev.toml",
         "app/config/settings.dev-localhost.toml",
         "app/config/settings.dev-compose.toml",
         "app/config/settings.test.toml",
-        "app/config/settings.prod.toml",
+        "app/config/settings.kubernetes.toml",
         "app/config/.secrets.toml",
     ],
     load_dotenv=True,
