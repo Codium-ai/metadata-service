@@ -41,7 +41,7 @@ spec:
             - containerPort: 8000
           volumeMounts:
             - name: secrets-volume
-              mountPath: /app/secrets
+              mountPath: /root/app/config_prod
           env:
             - name: APP_NAME
               value: metadata-service
