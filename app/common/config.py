@@ -21,6 +21,9 @@ _settings = Dynaconf(
         "app/config/settings.dev-compose.toml",
         "app/config/settings.test.toml",
         "app/config/settings.kubernetes.toml",
+        "app/config_prod/.secrets.toml",
+        # this file comes from separate dir to make it
+        # easier to mount setting file in kubernetes
         "app/config/.secrets.toml",
     ],
     load_dotenv=True,
@@ -31,7 +34,6 @@ _settings = Dynaconf(
 
 # Debugging: Print environment variables
 logger.debug(f"Environment Variables: {os.environ}")
-
 
 class Settings:
     """
