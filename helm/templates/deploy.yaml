@@ -45,6 +45,9 @@ spec:
           env:
             - name: APP_NAME
               value: metadata-service
+            # The env var below defines section name in TOML secrets file. It's static for every k8s env
+            - name: ENV_FOR_DYNACONF
+              value: kubernetes
 {{- range .Values.additional_env_vars }}
             - name: {{ .name }}
               value: {{ .value }}
