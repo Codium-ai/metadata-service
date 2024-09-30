@@ -78,5 +78,5 @@ def get_connection_url():
 
 
 _settings.DATABASE_URL = get_connection_url()
-logger.debug(f"DATABASE_URL: {_settings.DATABASE_URL}")
+
 settings = Settings(_settings)

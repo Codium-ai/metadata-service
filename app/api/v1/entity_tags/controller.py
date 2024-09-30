@@ -99,7 +99,7 @@ def advanced_search(
         raise HTTPException(status_code=400, detail=str(e)) from e
 
 
-@router.delete("/entity_tags/", response_model=DeleteResponse)
+@router.post("/entity_tags/delete", response_model=DeleteResponse)
 def delete(
     delete_request: EntityTagDeleteRequest,
     entity_tag_service: EntityTagService = Depends(get_entity_tag_service),
@@ -116,8 +116,8 @@ def delete(
         raise HTTPException(status_code=400, detail=str(e)) from e
 
 
-@router.delete(
-    "/entity_tags/bulk",
+@router.post(
+    "/entity_tags/delete/bulk",
     response_model=BulkResponse[EntityTagDeleteRequest, DeleteResponse],
 )
 def delete_bulk(
