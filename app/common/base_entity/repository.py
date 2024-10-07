@@ -112,7 +112,7 @@ class BaseRepository(Generic[T]):
             value_clauses = []
             for value in f.values:
                 if f.filter_type == FilterType.EQUALS:
-                    value_clauses.append(column.ilike(value.lower()))
+                    value_clauses.append(column == value.lower())
                 elif f.filter_type == FilterType.STARTS_WITH:
                     value_clauses.append(column.ilike(f"{value.lower()}%"))
                 elif f.filter_type == FilterType.CONTAINS:
