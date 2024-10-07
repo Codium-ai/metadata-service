@@ -55,9 +55,9 @@ class BaseRepository(Generic[T]):
         if filter_type == FilterType.EQUALS:
             return self.db.query(self.model).filter(column == value).all()
         elif filter_type == FilterType.STARTS_WITH:
-            return self.db.query(self.model).filter(column.like(f"{value}%")).all()
+            return self.db.query(self.model).filter(column.ilike(f"{value}%")).all()
         elif filter_type == FilterType.CONTAINS:
-            return self.db.query(self.model).filter(column.like(f"%{value}%")).all()
+            return self.db.query(self.model).filter(column.ilike(f"%{value}%")).all()
         else:
             raise ValueError(
                 "Invalid search_type. Use 'exact', 'starts-with', or 'contains'."
