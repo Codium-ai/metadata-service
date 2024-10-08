@@ -25,9 +25,10 @@ jobs:
           password: ${{ secrets.INTUIT_ACR_PASSWORD }}
 
       - name: Set short commit SHA and app version as environment variables
-        run: | 
-          echo "SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
-          echo "APP_VERSION="${GITHUB_RUN_NUMBER}_${{ env.SHORT_SHA }}" >> $GITHUB_ENV
+        run: |
+          calculatedSha=$(git rev-parse --short ${{ github.sha }})
+          echo "SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
+          echo "APP_VERSION="${GITHUB_RUN_NUMBER}_$calculatedSha" >> $GITHUB_ENV
 
       - name: Build push
         run: |
