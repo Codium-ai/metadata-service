@@ -28,7 +28,7 @@ jobs:
         run: |
           calculatedSha=$(git rev-parse --short ${{ github.sha }})
           echo "SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
-          echo "APP_VERSION="${GITHUB_RUN_NUMBER}_$calculatedSha" >> $GITHUB_ENV
+          echo "APP_VERSION=${GITHUB_RUN_NUMBER}_$calculatedSha" >> $GITHUB_ENV
 
       - name: Build push
         run: |
