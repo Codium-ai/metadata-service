@@ -28,11 +28,11 @@ jobs:
         run: |
           calculatedSha=$(git rev-parse --short ${{ github.sha }})
           echo "SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
-          echo "APP_VERSION=${GITHUB_RUN_NUMBER}_$calculatedSha" >> $GITHUB_ENV
+          echo "APP_VERSION=intuit-b${GITHUB_RUN_NUMBER}_$calculatedSha" >> $GITHUB_ENV
 
       - name: Build push
         run: |
-          tagname="intuitpragent.azurecr.io/metadata-service:${{ env.APP_VERSION }}"
+          tagname="intuitpragent.azurecr.io/metadata-service:intuit-b${GITHUB_RUN_NUMBER}"
           tagname_latest="intuitpragent.azurecr.io/metadata-service:latest"
           echo $tagname
           docker build --build-arg APP_VERSION=${{ env.APP_VERSION }} -t $tagname .
