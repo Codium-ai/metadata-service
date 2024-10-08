@@ -39,9 +39,14 @@ jobs:
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
+      - name: Set short commit SHA and app version as environment variables
+        run: | 
+          echo "SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
+          echo "APP_VERSION="${GITHUB_RUN_NUMBER}_${{ env.SHORT_SHA }}" >> $GITHUB_ENV
+
       - name: Build push and install
         run: |
-          tagname="us-central1-docker.pkg.dev/codium-development/codium-repo/metadata-service:build-${GITHUB_RUN_NUMBER}"
-          docker build -t $tagname .
+          tagname="us-central1-docker.pkg.dev/codium-development/codium-repo/metadata-service:${{ env.APP_VERSION }}"
+          docker build --build-arg APP_VERSION=${{ env.APP_VERSION}} -t $tagname .
           docker push $tagname
           helm upgrade --create-namespace --install metadata-service helm -n metadata-service --set image=$tagname

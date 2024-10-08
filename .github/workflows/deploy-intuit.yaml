@@ -24,13 +24,17 @@ jobs:
           username: ${{ secrets.INTUIT_ACR_USERNAME }}
           password: ${{ secrets.INTUIT_ACR_PASSWORD }}
 
+      - name: Set short commit SHA and app version as environment variables
+        run: | 
+          echo "SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
+          echo "APP_VERSION="${GITHUB_RUN_NUMBER}_${{ env.SHORT_SHA }}" >> $GITHUB_ENV
+
       - name: Build push
         run: |
-          echo "${GITHUB_RUN_NUMBER}" > ragger/indexing/build_number.txt
-          tagname="intuitpragent.azurecr.io/metadata-service:build-${GITHUB_RUN_NUMBER}"
+          tagname="intuitpragent.azurecr.io/metadata-service:${{ env.APP_VERSION }}"
           tagname_latest="intuitpragent.azurecr.io/metadata-service:latest"
           echo $tagname
-          docker build -t $tagname .
+          docker build --build-arg APP_VERSION=${{ env.APP_VERSION }} -t $tagname .
           docker tag $tagname $tagname_latest
           docker push $tagname
           docker push $tagname_latest
