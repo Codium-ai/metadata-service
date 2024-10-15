@@ -24,7 +24,7 @@ from app.common.base_entity.model import (
     SuccessItem,
 )
 from app.common.database import get_db
-from app.api.v1.entity_tags.model import (
+from app.api.v1.entity_tags.types import (
     EntityTagResponse,
     EntityTagCreateRequest,
     EntityTag,
