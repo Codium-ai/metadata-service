@@ -72,7 +72,7 @@ jobs:
         run: |
             argocd app create metadata-service \
               --project codium \
-              --repo https://github.com/Codium-ai/codium-proxy.git \
+              --repo https://github.com/Codium-ai/metadata-service.git \
               --path helm \
               --revision refs/heads/production \
               --sync-policy automatic \
@@ -97,7 +97,7 @@ jobs:
         run: |
             argocd app create metadata-service \
               --project codium \
-              --repo https://github.com/Codium-ai/codium-proxy.git \
+              --repo https://github.com/Codium-ai/metadata-service.git \
               --path helm \
               --revision refs/heads/production \
               --sync-policy automatic \
@@ -122,7 +122,7 @@ jobs:
         run: |
             argocd app create metadata-service \
               --project codium \
-              --repo https://github.com/Codium-ai/codium-proxy.git \
+              --repo https://github.com/Codium-ai/metadata-service.git \
               --path helm \
               --revision refs/heads/production \
               --sync-policy automatic \
@@ -147,7 +147,7 @@ jobs:
         run: |
             argocd app create metadata-service \
               --project codium \
-              --repo https://github.com/Codium-ai/codium-proxy.git \
+              --repo https://github.com/Codium-ai/metadata-service.git \
               --path helm \
               --revision refs/heads/production \
               --sync-policy automatic \
