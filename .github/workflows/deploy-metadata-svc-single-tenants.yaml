@@ -108,40 +108,15 @@ jobs:
               --dest-server https://kubernetes.default.svc \
               --upsert
 
-      - name: Log in to Argo CD Skai ST
+      - name: Log in to Argo CD Intuitive Surgical ST
         env:
-          ARGOCD_SERVER: argocd.skai.st.codium.ai
+          ARGOCD_SERVER: argocd.intuitive-surgical.st.codium.ai
           ARGOCD_USERNAME: admin
-          ARGOCD_PASSWORD: ${{ secrets.ST_SKAI_ARGOCD_PASSWORD }}
+          ARGOCD_PASSWORD: ${{ secrets.ST_INTUITIVE_SURGICAL_ARGOCD_PASSWORD }}
         run: |
           argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --grpc-web
 
-      - name: Deploy to Production ArgoCD Skai ST
-        env:
-          HOME: .
-        run: |
-            argocd app create metadata-service \
-              --project codium \
-              --repo https://github.com/Codium-ai/metadata-service.git \
-              --path helm \
-              --revision refs/heads/production \
-              --sync-policy automatic \
-              --sync-option CreateNamespace=true \
-              --self-heal \
-              --dest-namespace metadata-service \
-              --helm-set image="$TAGNAME" \
-              --dest-server https://kubernetes.default.svc \
-              --upsert
-
-      - name: Log in to Argo CD Placer ST
-        env:
-          ARGOCD_SERVER: argocd.placer.st.codium.ai
-          ARGOCD_USERNAME: admin
-          ARGOCD_PASSWORD: ${{ secrets.ST_PLACER_ARGOCD_PASSWORD }}
-        run: |
-          argocd login $ARGOCD_SERVER --username $ARGOCD_USERNAME --password $ARGOCD_PASSWORD --grpc-web
-
-      - name: Deploy to Production ArgoCD placer ST
+      - name: Deploy to Production ArgoCD Intuitive Surgical ST
         env:
           HOME: .
         run: |
