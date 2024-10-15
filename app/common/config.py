@@ -35,6 +35,7 @@ _settings = Dynaconf(
 # Debugging: Print environment variables
 logger.debug(f"Environment Variables: {os.environ}")
 
+
 class Settings:
     """
     This class is a WA for the fact that Dynaconf does not seem to let env variables

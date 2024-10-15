@@ -41,9 +41,15 @@ jobs:
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
+      - name: Set short commit SHA and app version as environment variables
+        run: |
+          calculatedSha=$(git rev-parse --short ${{ github.sha }})
+          echo "SHORT_SHA=$calculatedSha" >> $GITHUB_ENV
+          echo "APP_VERSION=${GITHUB_RUN_NUMBER}_$calculatedSha" >> $GITHUB_ENV
+
       - name: Build push and install
         run: |
-          docker build -t $TAGNAME .
+          docker build --build-arg APP_VERSION=${{ env.APP_VERSION }} -t $TAGNAME .
           docker push $TAGNAME
 
       - name: Install Argo CD CLI

@@ -7,17 +7,14 @@ It uses the service layer to perform the business logic.
 import traceback
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 from app.api.v1.tag_groups.controller import get_tag_group_service
 from app.api.v1.tags.model import TagResponse, TagCreateRequest, Tag
-from app.api.v1.tags.repository import TagRepository
-from app.api.v1.tags.service import TagService
+from app.api.v1.tags.service import TagService, get_tag_service
 from app.common.base_entity.model import (
     AdvancedSearchResponse,
     AdvancedSearchRequest,
     DeleteResponse,
 )
-from app.common.database import get_db
 from app.common.utils.logging_utils import get_logger
 
 logger = get_logger()
@@ -26,9 +23,6 @@ router = APIRouter()
 
 
 # Dependency function to provide TagGroupService
-def get_tag_service(db: Session = Depends(get_db)) -> TagService:
-    repository = TagRepository(db)
-    return TagService(repository)
 
 
 def convert_advanced_search_response(
@@ -66,7 +60,6 @@ def get_tag(
     tag_service: TagService = Depends(get_tag_service),
     tag_group_service=Depends(get_tag_group_service),
 ):
-
     tag = tag_service.get(tag_id)
 
     if tag is None:
@@ -121,3 +114,14 @@ def advanced_search(
     except Exception as e:
         logger.error(f"Exception occurred: {e}\n{traceback.format_exc()}")
         raise HTTPException(status_code=400, detail=str(e)) from e
+
+
+@router.post("/tags/delete_tags_with_no_entities", response_model=DeleteResponse)
+def delete_tags_with_no_entities(
+    tag_service: TagService = Depends(get_tag_service),
+):
+    try:
+        deleted_count = tag_service.delete_tags_with_no_entities()
+        return DeleteResponse(count=deleted_count)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) from e
