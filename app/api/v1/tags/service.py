@@ -5,11 +5,15 @@ It uses the repository layer to interact with the database.
 
 from typing import Optional
 
+from sqlalchemy.orm import Session
+
 from app.api.v1.tag_groups.model import TagGroup
 from app.api.v1.tags.model import Tag, TagCreateRequest
 from app.api.v1.tags.repository import TagRepository
 from app.common.base_entity.model import AdvancedSearchRequest, AdvancedSearchResponse
+from app.common.database import get_db
 from app.common.utils.logging_utils import get_logger
+from fastapi import Depends
 
 logger = get_logger()
 
@@ -60,3 +64,11 @@ class TagService:
             raise ValueError(f"Tag {name} already exists in another group")
 
         return tag
+
+    def delete_tags_with_no_entities(self) -> int:
+        return self.repository.delete_tags_with_no_entities()
+
+
+def get_tag_service(db: Session = Depends(get_db)) -> TagService:
+    repository = TagRepository(db)
+    return TagService(repository)
