@@ -35,7 +35,7 @@ class FieldType(str, Enum):
 
 class Filter(BaseModel):
     field: str
-    field_type: FieldType
+    field_type: Optional[FieldType] = FieldType.STRING
     filter_type: FilterType
     values: list[str]
     # values operator is "or"

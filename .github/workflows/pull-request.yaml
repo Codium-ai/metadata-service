@@ -1,0 +1,38 @@
+name: Run tests
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+          cache: 'pip'
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Start Docker
+        run: docker compose up db -d
+      - run: sleep 5 # TODO wait for PG to be ready
+      - run: docker ps -a
+      - name: Run alembic migrations
+        run: ENV_FOR_DYNACONF=test PYTHONPATH="$PYTHONPATH:." python ./app/schema_migration.py
+      - name: Run tests
+        run: ENV_FOR_DYNACONF=test PYTHONPATH="$PYTHONPATH:." pytest --cov=app --cov-report=term --cov-report=html --cov-fail-under=70
+      - name: Docker ps
+        if: failure()
+        run: docker ps -a
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
+

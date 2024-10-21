@@ -1,3 +1,5 @@
 .codiumai
 venv
 app/config/.secrets.toml
+.coverage
+htmlcov/
