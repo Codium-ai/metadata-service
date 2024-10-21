@@ -1,4 +1,6 @@
-[development]
+[dev-localhost]
+# Use this to run the app in a local environment (for debugging, with local database)
+# set ENV_FOR_DYNACONF=dev-localhost in .env file
 DATABASE_USER = "postgres"
 DATABASE_PASSWORD = "123456"
 DATABASE_NAME = "metadata_service"

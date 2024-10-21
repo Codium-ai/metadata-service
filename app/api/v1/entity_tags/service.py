@@ -4,7 +4,7 @@ It uses the repository layer to interact with the database.
 """
 
 from typing import List
-from app.api.v1.entity_tags.model import (
+from app.api.v1.entity_tags.types import (
     EntityTag,
     EntityTagCreateRequest,
     EntityTagDeleteRequest,
@@ -62,13 +62,12 @@ class EntityTagService:
 
         logger.debug(f"Resetting tags for entity {request.entity_id}")
 
+        logger.debug(f"Deleting existing tags for entity: {request.entity_id}")
+        deleted = self.delete(EntityTagDeleteRequest(entity_id=request.entity_id))
+        logger.debug(f"Deleted {deleted} tags for entity: {request.entity_id}")
+
         for tag_group_req in request.tag_groups:
             try:
-                logger.debug(f"Deleting existing tags for entity: {request.entity_id}")
-                deleted = self.delete(
-                    EntityTagDeleteRequest(entity_id=request.entity_id)
-                )
-                logger.debug(f"Deleted {deleted} tags for entity: {request.entity_id}")
                 logger.debug(f"Looking for tag group: {tag_group_req.tag_group_name}")
                 tag_group = tag_group_service.find_by_name_or_create(
                     name=tag_group_req.tag_group_name
