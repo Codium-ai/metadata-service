@@ -28,7 +28,7 @@ jobs:
       - name: Run alembic migrations
         run: ENV_FOR_DYNACONF=test PYTHONPATH="$PYTHONPATH:." python ./app/schema_migration.py
       - name: Run tests
-        run: ENV_FOR_DYNACONF=test PYTHONPATH="$PYTHONPATH:." python -m pytest .
+        run: ENV_FOR_DYNACONF=test PYTHONPATH="$PYTHONPATH:." pytest --cov=app --cov-report=term --cov-report=html --cov-fail-under=70
       - name: Docker ps
         if: failure()
         run: docker ps -a

@@ -1,6 +1,10 @@
-from app.common.config import settings
+"""
+Schema migration management
+"""
+
 from alembic import command
 from alembic.config import Config
+from app.common.config import settings
 from app.common.utils.logging_utils import setup_logger, LoggingFormat
 
 logger = setup_logger(level="DEBUG", fmt=LoggingFormat.CONSOLE)
