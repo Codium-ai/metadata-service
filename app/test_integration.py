@@ -41,6 +41,7 @@ def test_create_tags_and_search_entities():
         assert "errors" in item, "expected errors array"
         assert item["errors"] == [], "expected no errors"
 
+
     # 2. search for tags (end user from ide)
     # search_request = AdvancedSearchRequest(
     #    filters= [
