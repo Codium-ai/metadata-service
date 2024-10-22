@@ -1,4 +1,4 @@
-name: Run tests 2
+name: Run tests 3
 on:
   push:
     branches: [ main ]
