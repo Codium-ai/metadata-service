@@ -20,4 +20,5 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE ${PORT}
 
 # Run the application
+
 CMD ["python", "./app/main.py"]
