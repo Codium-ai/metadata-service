@@ -30,7 +30,6 @@
 docker compose version
 ```
 - Build docker image locally: `docker build -t metadata-svc:latest .`
-- Update postgres connection string to `"postgresql://postgres:postgres@db:5432/postgres"`
 - Run docker-compose: `docker compose up`
 - You should see output similar to:
 ```
