@@ -1,10 +1,9 @@
-name: Run tests 2
+name: Run tests_2
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
 jobs:
   integration-tests:
     runs-on: ubuntu-latest
