@@ -54,4 +54,27 @@ jobs:
           name: metadata-service-helm
           path: metadata-service-helm.zip
 
+      # Snyk integration
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+      - name: Authenticate Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+      - name: Scan Docker image with Snyk
+        run: |
+          snyk container test intuitpragent.azurecr.io/metadata-service:intuit-b${GITHUB_RUN_NUMBER} --severity-threshold=high --json > snyk-report.json || echo "Snyk scan completed with issues."
+      - name: Check for vulnerabilities
+        run: |
+          CRITICAL_ISSUES=$(jq '.vulnerabilities[] | select(.severity=="critical")' snyk-report.json)
+          MAJOR_ISSUES=$(jq '.vulnerabilities[] | select(.severity=="high")' snyk-report.json)
+          if [[ -n "$CRITICAL_ISSUES" || -n "$MAJOR_ISSUES" ]]; then
+            echo "Critical vulnerabilities:"
+            echo "$CRITICAL_ISSUES" | jq .
+            echo "Major vulnerabilities:"
+            echo "$MAJOR_ISSUES" | jq .
+            echo "Critical or major vulnerabilities found, but continuing workflow."
+            exit 1
+          else
+            echo "No critical or major vulnerabilities found."
+          fi    
+
 
